@@ -38,3 +38,7 @@ To run the task in a single command, use the following script:
 TASK="aoa"
 bash scripts/${TASK}/run_${TASK}.sh
 ```
+
+## Questions
+This repo is still under construction. 
+If you have any questions, please feel free to open an issue or contact me at `tengxiao@ucsb.edu`.
