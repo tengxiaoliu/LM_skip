@@ -1,6 +1,6 @@
 # LM_skip
 
-Implementation for NeurIPS 2024 [paper]():
+Implementation for NeurIPS 2024 [paper](https://arxiv.org/pdf/2411.01855):
 
 Can Language Models Learn to Skip Steps?
 
