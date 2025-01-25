@@ -1,7 +1,5 @@
 #!/bin/bash
 
-eval "$(conda shell.bash hook)"
-
 echo "=====Init====="
 bash scripts/aoa/aoa_0_init.sh
 
@@ -14,4 +12,3 @@ bash scripts/aoa/aoa_3_iter.sh
 
 echo "=====Standard model====="
 bash scripts/aoa/aoa_4_standard.sh
-

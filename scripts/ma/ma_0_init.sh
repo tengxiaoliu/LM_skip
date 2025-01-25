@@ -1,5 +1,5 @@
 #!/bin/bash
-OUTPUT_DIR="outputs/phi/aoa/model"
+OUTPUT_DIR="outputs/phi/ma/model"
 MODEL_NAME="microsoft/Phi-3-mini-4k-instruct"
 
 # standard model (normal training)
@@ -7,12 +7,12 @@ WANDB_PROJECT="lm_skip" \
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
 accelerate launch --config_file=accelerate_configs/deepspeed_zero3.yaml --num_processes 8 --main_process_port 12306 src/sft.py \
     --do_train \
-    --train_dataset "data/AOA/train.jsonl" \
+    --train_dataset "data/MA/train.jsonl" \
     --max_seq_length 4000 \
     --model_name_or_path ${MODEL_NAME} \
     --tokenizer_name ${MODEL_NAME} \
     --per_device_train_batch_size 4 \
-    --learning_rate 1e-5 \
+    --learning_rate 5e-6 \
     --warmup_ratio 0.05 \
     --num_train_epochs 2 \
     --gradient_accumulation_steps 2 \
@@ -28,16 +28,17 @@ accelerate launch --config_file=accelerate_configs/deepspeed_zero3.yaml --num_pr
     --mode "normal"
 
 # number
+
 WANDB_PROJECT="lm_skip" \
 CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
 accelerate launch --config_file=accelerate_configs/deepspeed_zero3.yaml --num_processes 8 --main_process_port 12306 src/sft.py \
     --do_train \
-    --train_dataset "data/AOA/train.jsonl" \
+    --train_dataset "data/MA/train.jsonl" \
     --max_seq_length 4000 \
     --model_name_or_path ${MODEL_NAME} \
     --tokenizer_name ${MODEL_NAME} \
     --per_device_train_batch_size 4 \
-    --learning_rate 1e-5 \
+    --learning_rate 5e-6 \
     --warmup_ratio 0.05 \
     --num_train_epochs 2 \
     --gradient_accumulation_steps 2 \

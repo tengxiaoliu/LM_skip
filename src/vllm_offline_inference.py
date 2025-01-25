@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple
 import argparse
 import torch
 from transformers import AutoTokenizer
-from evaluate import sympy_equal
+from evaluate_aoa import sympy_equal
 
 import logging
 

@@ -1,6 +1,4 @@
 #!/bin/bash
-eval "$(conda shell.bash hook)"
-
 
 TASK="aoa"
 TAG="phi_normal"

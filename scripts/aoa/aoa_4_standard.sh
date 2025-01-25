@@ -1,7 +1,5 @@
 #!/bin/bash
 
-eval "$(conda shell.bash hook)"
-
 for ITER_NUM in {0..4}
 do
 
@@ -19,9 +17,9 @@ do
     --raw_file "outputs/phi/aoa/data/phi_iter${ITER_NUM}_aoa_train_${ALIAS}_skip-2_new_sft_data.jsonl" \
     --dataset "aoa"
 
-  WANDB_PROJECT="trl_sft" \
+  WANDB_PROJECT="lm_skip" \
   CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
-  accelerate launch --config_file=accelerate_configs/deepspeed_zero3.yaml --num_processes 8 --main_process_port 12312 src/sft.py \
+  accelerate launch --config_file=accelerate_configs/deepspeed_zero3.yaml --num_processes 8 --main_process_port 12306 src/sft.py \
       --do_train \
       --train_dataset "outputs/phi/aoa/data/phi_iter${ITER_NUM}_aoa_train_${ALIAS}_skip-2_new_sft_normal_data.jsonl" \
       --max_saoa_length 4000 \
@@ -53,7 +51,7 @@ do
 
   CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 \
   python src/vllm_offline_inference.py \
-      --data_path  "data/AOA/train.jsonl" \
+      --data_path "data/AOA/train.jsonl" \
       --demonstration_path ${PROMPT_PATH} \
       --model_name ${MODEL_PATH} \
       --tokenizer_name ${TOKENIZER_NAME} \
@@ -67,7 +65,7 @@ do
       --model_alias ${ALIAS}
 
   # eval on the fly
-  python v8/aoa_evaluate.py \
+  python src/evaluate_aoa.py \
       --raw_file "data/AOA/id_test.jsonl" \
       --pred_file "${SAVE_PATH}/test/${TAG}_aoa_idtest_${ALIAS}_normal_preds.jsonl" \
       --run_name "${TASK}_idtest_${TAG}" \
@@ -90,7 +88,7 @@ do
       --model_alias ${ALIAS}
 
   # eval on the fly
-  python v8/aoa_evaluate.py \
+  python src/evaluate_aoa.py \
       --raw_file "data/AOA/ood_easy.jsonl" \
       --pred_file "${SAVE_PATH}/test/${TAG}_aoa_oodeasy_${ALIAS}_normal_preds.jsonl" \
       --run_name "${TASK}_oodeasy_${TAG}" \
@@ -114,7 +112,7 @@ do
       --model_alias ${ALIAS}
 
   # eval on the fly
-  python v8/aoa_evaluate.py \
+  python src/evaluate_aoa.py \
       --raw_file "data/AOA/ood_hard.jsonl" \
       --pred_file "${SAVE_PATH}/test/${TAG}_aoa_oodhard_${ALIAS}_normal_preds.jsonl" \
       --run_name "${TASK}_oodhard_${TAG}" \
@@ -123,5 +121,4 @@ do
 
   rm -r ${MODEL_PATH}
 
-  done
 done
