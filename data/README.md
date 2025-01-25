@@ -7,6 +7,7 @@ This folder contains the datasets used in our work. Each folder includes four da
 data/
 └── TASK/
     ├── train.jsonl
+    ├── train_cold.jsonl
     ├── id_test.jsonl
     ├── ood_easy.jsonl
     └── ood_hard.jsonl
